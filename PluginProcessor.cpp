@@ -22,6 +22,9 @@ SimpleDelayAudioProcessor::SimpleDelayAudioProcessor()
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        )
+    , delayLength(20000)
+    , feedback(0.5)
+    , wet(0.5)
 #endif
 {
 }
@@ -133,16 +136,15 @@ bool SimpleDelayAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 
 void SimpleDelayAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    delay.set_wet(wet);
+    delay.set_feedback(feedback);
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
+        delay.set_delay_length(delayLength, channel);
         delay.process(
             buffer.getReadPointer(channel),
             buffer.getWritePointer(channel),

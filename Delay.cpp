@@ -4,7 +4,7 @@
 Delay::Delay() : 
 	wet(0.5), 
 	feedback(0.3), 
-	delayTimes({10000.0, 10000.0}), 
+	delayTimes({7000.0, 7000.0}), 
 	n_channels(2),
 	m_sampleRate(44100)
 {
@@ -18,7 +18,7 @@ void Delay::reset(int sampleRate, int num_channels)
 	m_sampleRate = sampleRate;
 	n_channels = num_channels;
 	delayLines.resize(n_channels);
-	for (int i = 0; i < n_channels; ++i) { delayLines[i].reset(m_sampleRate); } // TODO: why samplerate?
+	for (int i = 0; i < n_channels; ++i) { delayLines[i].reset(44100); }
 	reset_delay_lengths();
 }
 
@@ -35,7 +35,7 @@ void Delay::set_feedback(double fb)
 void Delay::set_delay_length(double len, int channel)
 {
 	delayTimes[channel] = len;
-	delayLines[channel].setDelayLength(len);
+	reset_delay_lengths();
 }
 
 void Delay::reset_delay_lengths()

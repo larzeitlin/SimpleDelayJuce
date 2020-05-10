@@ -11,7 +11,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "DelayLine.h"
 #include "Delay.h"
 
 //==============================================================================
@@ -62,6 +61,7 @@ public:
     Delay delay;
     double delayLength;
     double wet;
+    double feedback;
 
 private:
     //==============================================================================
