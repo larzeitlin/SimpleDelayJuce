@@ -144,7 +144,7 @@ void SimpleDelayAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
     
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        delay.set_delay_length(delayLength, channel);
+        delay.set_delay_length(smoothenDelayLength.process(delayLength), channel);
         delay.process(
             buffer.getReadPointer(channel),
             buffer.getWritePointer(channel),

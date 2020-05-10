@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "Delay.h"
+#include "ParamSmooth.h"
 
 //==============================================================================
 /**
@@ -60,8 +61,11 @@ public:
 
     Delay delay;
     double delayLength;
+    CParamSmooth smoothenDelayLength;
     double wet;
+    CParamSmooth smoothenWet;
     double feedback;
+    CParamSmooth smoothenFeedback;
 
 private:
     //==============================================================================
