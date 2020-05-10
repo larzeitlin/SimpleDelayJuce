@@ -59,7 +59,7 @@ public:
 
     //==============================================================================
 
-    Delay<float> delay;
+    Delay delay;
     double delayLength;
     double wet;
 

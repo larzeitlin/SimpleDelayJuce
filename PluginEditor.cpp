@@ -66,7 +66,7 @@ void SimpleDelayAudioProcessorEditor::resized()
 }
 
 void SimpleDelayAudioProcessorEditor::sliderValueChanged(Slider* slider)
-{-
+{
     processor.wet = wet.getValue();
     processor.delayLength = delayLength.getValue();
 }

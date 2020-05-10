@@ -95,12 +95,14 @@ void SimpleDelayAudioProcessor::changeProgramName (int index, const String& newN
 //==============================================================================
 void SimpleDelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    delay.reset(sampleRate, getTotalNumInputChannels());
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
 
 void SimpleDelayAudioProcessor::releaseResources()
 {
+
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
@@ -138,10 +140,16 @@ void SimpleDelayAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        delay.process(buffer, buffer.getNumSamples(), totalNumInputChannels);
+        delay.process(
+            buffer.getReadPointer(channel),
+            buffer.getWritePointer(channel),
+            channel,
+            buffer.getNumSamples());
     }
+    
 }
 
 //==============================================================================
